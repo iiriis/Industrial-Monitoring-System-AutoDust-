@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <LoRa.h>
+#include <EEPROM.h>
 
 void setup() {
   Serial.begin(9600);
@@ -32,6 +33,15 @@ else
       s+=(char)LoRa.read();
 
     Serial.println(s);
+  int addrOffset = 0x0000
+  byte len = s.length();
+  EEPROM.write(addrOffset, len);
+  for (int i = 0; i < len; i++)
+  {
+    EEPROM.write(addrOffset + 1 + i, s[i]);
+  }
+  
+}
     
 }
 }
@@ -53,6 +63,8 @@ void sendData(String message) {
   LoRa.print(message);                  
   LoRa.endPacket(true);                 
 }
+
+
 
 
 
